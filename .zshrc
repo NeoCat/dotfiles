@@ -139,6 +139,7 @@ compinit -u
 setopt extended_glob
 setopt correctall
 CORRECT_IGNORE='_*'
+CORRECT_IGNORE_FILE='.*'
 setopt no_beep
 setopt auto_param_slash
 setopt list_packed		# 補完候補を詰めて表示
