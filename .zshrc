@@ -230,7 +230,7 @@ preexec_gitupdate() {
   _cmd="$1"
   _lastdir="$PWD"
 }
-preexec_function=($preexec_function preexec_gitupdate)
+preexec_functions=($preexec_functions preexec_gitupdate)
 #git情報更新
 update_vcs_info() {
   psvar=()
