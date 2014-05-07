@@ -174,13 +174,15 @@ redraw_tmout() { zle reset-prompt; reset_tmout }
 TRAPALRM() { check_autologout; redraw_tmout }
 
 #ウィンドウタイトル
-if [ "$TERM" = xterm -o "$TERM" = xterm-color -o "$TERM" = kterm ]; then
+case "$TERM" in
+    xterm*|screen*|kterm*)
 	print_esc() { print -nr ${1//[^\ -~]/_} }  #unprintableな文字を??に置換
 	precmd_wintitle() { print -n "\e]0;"; print_esc "[${PWD/~HOME/~}:$HOST]"; print -n "\a" }
 	preexec_wintitle() { print -n "\e]0;"; print_esc "$1 [${PWD/~HOME/~}:$HOST]"; print -n "\a" }
 	precmd_functions=($precmd_functions precmd_wintitle)
 	preexec_functions=($preexec_functions preexec_wintitle)
-fi
+	;;
+esac
 
 #その他
 autoload -U url-quote-magic  && zle -N self-insert url-quote-magic	#URLを貼付時に自動的にエスケープ
