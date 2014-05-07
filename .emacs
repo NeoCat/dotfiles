@@ -15,6 +15,7 @@
 
 (setq backup-inhibited t)
 (setq auto-save-default nil)
+(setq vc-follow-symlinks nil)
 
 (display-time)
 (column-number-mode t)
@@ -27,11 +28,11 @@
 ;; (require 'pabbrev)
 ;; (global-pabbrev-mode)
 
-(require 'xcscope)
+(ignore-errors (require 'xcscope))
 (setq cscope-do-not-update-database t)
 (setq cscope-display-cscope-buffer nil)
 (global-set-key "\M-]" 'cscope-find-global-definition-no-prompting)
-(global-set-key "\M-:" 'cscope-pop-mark)
+(global-set-key "\M--" 'cscope-pop-mark)
 
 (require 'anything-config)
 (setq anything-sources
