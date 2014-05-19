@@ -221,7 +221,7 @@ zstyle ':vcs_info:git:*' formats '%c%u%b'
 zstyle ':vcs_info:git:*' actionformats '%c%u%b|%a'
 
 # ^のエスケープ
-source .zsh-git-escape-magic
+source ~/.zsh-git-escape-magic
 
 #カレントディレクトリ/コマンド記録
 local _cmd=''
