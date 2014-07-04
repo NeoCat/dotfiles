@@ -62,6 +62,7 @@ alias -g H='| head'
 alias -g T='| tail'
 alias -g G='| egrep --color=auto'
 alias -g W='| wc'
+alias -g P='| peco'
 
 #管理者権限で書き込み: /proc, /sys 経由の設定用
 function suwrite { x="$1"; shift; sudo sh -c "echo \"$*\" > \"$x\"" }
