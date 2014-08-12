@@ -247,3 +247,8 @@ precmd_gitupdate() {
 precmd_functions=($precmd_functions precmd_gitupdate)
 
 ############
+
+if declare -f _postinit_by_host >/dev/null; then
+  _postinit_by_host
+  unset -f _postinit_by_host
+fi
