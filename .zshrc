@@ -63,6 +63,8 @@ alias -g T='| tail'
 alias -g G='| egrep --color=auto'
 alias -g W='| wc'
 alias -g P='| peco'
+alias -g NL='>/dev/null'
+alias -g NLL='&>/dev/null'
 
 #管理者権限で書き込み: /proc, /sys 経由の設定用
 function suwrite { x="$1"; shift; sudo sh -c "echo \"$*\" > \"$x\"" }
@@ -248,7 +250,12 @@ precmd_functions=($precmd_functions precmd_gitupdate)
 
 ############
 
+# dotfilesの自動アップデート(1日1回)
+(: ~/.dotfiles/.git/FETCH_HEAD(md-1)) NLL || (cd ~/.dotfiles; [ "$(git pull)" = "Already up-to-date." ] || echo .dotfiles updated)&!
+
+# .zshrc_by_hostで定義した後処理の実行
 if declare -f _postinit_by_host >/dev/null; then
   _postinit_by_host
   unset -f _postinit_by_host
 fi
+
