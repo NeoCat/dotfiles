@@ -34,6 +34,7 @@ fi
 if [ $SYSTEM = Darwin ]; then
 	alias l="ls -FGv"
 	alias ll="ls -FGlav"
+	[ ! -e /usr/sbin/ip ] && function ip() { ifconfig }
 elif [ $SYSTEM = Linux ]; then
 	alias l="ls -F --color"
 	alias ll="ls -Fla --color"
