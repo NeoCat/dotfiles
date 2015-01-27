@@ -9,7 +9,7 @@
 (global-set-key (kbd "M-[ 5 d") 'backward-word)
 (global-set-key (kbd "M-[ 5 c") 'forward-word)
 
-(setq indent-line-function 'tab-to-tab-stop)
+(setq indent-line-function 'indent-to-left-margin)
 
 (setq-default transient-mark-mode t)
 
@@ -103,6 +103,13 @@
   (interactive "")
   (c-set-style "linux")
   (setq indent-tabs-mode t))
+
+(defun indent-4ts ()
+  "Set indent to 4-spaces and tab mixture mode"
+  (interactive "")
+  (c-set-style "linux")
+  (setq indent-tabs-mode t)
+  (setq c-basic-offset 4))
 
 ;;
 ;;(set-scroll-bar-mode 'right)
