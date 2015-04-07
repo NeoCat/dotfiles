@@ -129,20 +129,31 @@
 (define-key global-map (kbd "C-x SPC") 'cua-set-rectangle-mark)
 
 (require 'flymake)
-
+;(setq flymake-gui-warnings-enabled nil)
+(global-set-key "\C-cd" 'flymake-popup-current-error-menu)
+(defun flymake-c-init ()
+  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+		       'flymake-create-temp-inplace))
+	 (local-file  (file-relative-name
+		       temp-file
+		       (file-name-directory buffer-file-name))))
+    (list "gcc" (list "-Wall" "-Wextra" "-fsyntax-only" local-file))))
 (defun flymake-cc-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-         (local-file  (file-relative-name
-                       temp-file
-                       (file-name-directory buffer-file-name))))
+		       'flymake-create-temp-inplace))
+	 (local-file  (file-relative-name
+		       temp-file
+		       (file-name-directory buffer-file-name))))
     (list "g++" (list "-Wall" "-Wextra" "-fsyntax-only" local-file))))
-
-(push '("\\.cc$" flymake-cc-init) flymake-allowed-file-name-masks)
-
+(push '("\\.c$" flymake-c-init) flymake-allowed-file-name-masks)
+(push '("\\.cpp$" flymake-cc-init) flymake-allowed-file-name-masks)
 (add-hook 'c-mode-common-hook
-          '(lambda ()
-             (flymake-mode t)))
+	  '(lambda ()
+	     (flymake-mode t)))
+
+(defun flymake-get-temp-dir () "~/.emacs.d/tmp/")
+(setq fly-hack-helper "~/.elisp/fly-hack.py")
+(require 'fly-hack nil t)
 
 (when (locate-library "mozc")
   (require 'mozc)
