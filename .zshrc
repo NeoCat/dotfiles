@@ -69,7 +69,7 @@ alias -g P='| peco'
 alias -g NL='>/dev/null'
 alias -g NLL='&>/dev/null'
 alias -g L="| less"
-export PAGER=LESS
+export PAGER=less
 
 #管理者権限で書き込み: /proc, /sys 経由の設定用
 function suwrite { x="$1"; shift; sudo sh -c "echo \"$*\" > \"$x\"" }
