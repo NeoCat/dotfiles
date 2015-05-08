@@ -51,6 +51,8 @@ alias rm="rm -i"
 alias cvs="cvs -q -z7"
 alias rmmd="rm (*~|.*~|\#*|.\#*)"
 alias jp='export LANG=ja_JP.utf8'
+alias java='java -Dfile.encoding=UTF-8'
+alias javac='javac -J-Dfile.encoding=UTF-8'
 alias egrepr="egrep -rnI --color=auto"
 alias rsyncr="rsync -avz --del"
 alias hex="noglob printf '0x%x\n'"
@@ -66,15 +68,11 @@ alias -g W='| wc'
 alias -g P='| peco'
 alias -g NL='>/dev/null'
 alias -g NLL='&>/dev/null'
+alias -g L="| less"
+export PAGER=LESS
 
 #管理者権限で書き込み: /proc, /sys 経由の設定用
 function suwrite { x="$1"; shift; sudo sh -c "echo \"$*\" > \"$x\"" }
-
-LESS='less'
-[ x \!= x`/usr/bin/which lv 2> /dev/null` ] && LESS='lv -c'
-alias -g L="| $LESS"
-export LV="-Ou8"
-export PAGER=$LESS
 
 if [ $SYSTEM = 'Linux' ]; then
     netstat_tcp_opts="--tcp"
