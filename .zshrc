@@ -72,7 +72,7 @@ alias -g L="| less"
 export PAGER=less
 
 #管理者権限で書き込み: /proc, /sys 経由の設定用
-function suwrite { x="$1"; shift; sudo sh -c "echo \"$*\" > \"$x\"" }
+function suwrite { echo "$@[-1]" | sudo tee "${@:1:-1}" }
 
 if [ $SYSTEM = 'Linux' ]; then
     netstat_tcp_opts="--tcp"
