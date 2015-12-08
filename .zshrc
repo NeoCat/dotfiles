@@ -60,7 +60,7 @@ alias mv='nocorrect mv'			#スペルチェックをしない
 alias cp='nocorrect cp'			#スペルチェックをしない
 alias mkdir='nocorrect mkdir'	#スペルチェックをしない
 alias sudo='nocorrect sudo'	#スペルチェックをしない
-alias ssh-config="$EDITOR ~/.ssh/config"
+alias ssh-config="zed ~/.ssh/config"
 alias -g H='| head'
 alias -g T='| tail'
 alias -g G='| egrep --color=auto'

@@ -3,6 +3,11 @@
 	       (expand-file-name "~/.elisp/"))
 	      load-path))
 
+(add-to-list 'custom-theme-load-path
+	     (file-name-as-directory "~/.elisp/"))
+(load-theme 'clarity t t)
+(enable-theme 'clarity)
+
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key [select] [(shift up)])
 
