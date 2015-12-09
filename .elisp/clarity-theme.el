@@ -82,6 +82,7 @@
  '(isearch-lazy-highlight-face ((t (:background "paleturquoise4"))))
  '(italic ((t (:italic t :slant italic))))
  '(menu ((t (nil))))
+ '(minibuffer-prompt ((t (:foreground "cyan"))))
  '(mode-line ((t (:foreground "yellow" :background "darkslateblue"
                   :box (:line-width -1 :style released-button)))))
  '(mouse ((t (:background "white"))))
