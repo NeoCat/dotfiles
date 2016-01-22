@@ -3,10 +3,11 @@
 	       (expand-file-name "~/.elisp/"))
 	      load-path))
 
-(add-to-list 'custom-theme-load-path
-	     (file-name-as-directory "~/.elisp/"))
-(load-theme 'clarity t t)
-(enable-theme 'clarity)
+(when (boundp 'custom-theme-load-path)
+  (add-to-list 'custom-theme-load-path
+	       (file-name-as-directory "~/.elisp/"))
+  (load-theme 'clarity t t)
+  (enable-theme 'clarity))
 
 (unless window-system (menu-bar-mode 0))
 
