@@ -158,6 +158,16 @@
 (add-hook 'c-mode-common-hook
 	  '(lambda ()
 	     (flymake-mode t)))
+(global-set-key "\M-n" 'flymake-goto-next-error)
+(global-set-key "\M-p" 'flymake-goto-prev-error)
+(defun display-error-message ()
+  (message (get-char-property (point) 'help-echo)))
+(defadvice flymake-goto-prev-error
+    (after flymake-goto-prev-error-display-message) (display-error-message))
+(defadvice flymake-goto-next-error
+    (after flymake-goto-next-error-display-message) (display-error-message))
+(ad-activate 'flymake-goto-prev-error 'flymake-goto-prev-error-display-message)
+(ad-activate 'flymake-goto-next-error 'flymake-goto-next-error-display-message)
 
 (defun flymake-get-temp-dir () "~/.emacs.d/tmp/")
 (setq fly-hack-helper "~/.elisp/fly-hack.py")
@@ -165,7 +175,6 @@
 
 (when (locate-library "mozc")
   (require 'mozc)
-  (set-language-environment "Japanese")
   (setq default-input-method "japanese-mozc")
   (setq mozc-candidate-style 'overlay))
 
