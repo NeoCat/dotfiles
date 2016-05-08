@@ -208,13 +208,46 @@ export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'	#単語の区切り
 
 #csh互換
 function setenv () {
-    if [ $# -eq 0 ]; then
-        /usr/bin/env
+	if [ $# -eq 0 ]; then
+		/usr/bin/env
 	else
 		export $1=$*[2,-1]
-    fi
+	fi
 }
 trap "" USR1
+
+#TCP file transfer
+function file_recv {
+	if [ $# = 0 ]; then
+		echo file_recv listen_port
+		return
+	fi
+	(
+	autoload -U tcp_open; tcp_open >/dev/null 2>/dev/null # define ztcp
+	ztcp -l "$1"
+	fd_listen=$REPLY
+	echo "Waiting on port $1 (fd $fd_listen) ..."
+	ztcp -a $fd_listen || echo failed.
+	fd_accept=$REPLY
+	echo "Connected. (fd $fd_accept)"
+	tar vxf - <&$fd_accept
+	ztcp -c $fd_listen
+	ztcp -c $fd_accept
+	)
+}
+function file_send {
+	if [ $# -lt 3 ]; then
+		echo file_send host port files ...
+		return
+	fi
+	(
+	autoload -U tcp_open; tcp_open >/dev/null 2>/dev/null # define ztcp
+	ztcp "$1" "$2"
+	shift 2
+	tar vcf - "$@" >&$REPLY
+	ztcp -c $REPLY
+	)
+}
 
 ###### git 関連 ######
 
