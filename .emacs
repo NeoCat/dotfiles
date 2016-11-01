@@ -99,6 +99,7 @@
   ;; If there is more than one, they won't work right.
  )
 
+(setq js-indent-level 2)
 
 (defun indent-2s ()
   "Set indent to 2-spaces mode"
