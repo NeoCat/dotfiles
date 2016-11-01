@@ -100,6 +100,13 @@
  )
 
 
+(defun indent-2s ()
+  "Set indent to 2-spaces mode"
+  (interactive "")
+  (c-set-style "stroustrup")
+  (setq c-basic-offset 2)
+  (setq indent-tabs-mode nil))
+
 (defun indent-4s ()
   "Set indent to 4-spaces mode"
   (interactive "")
@@ -137,7 +144,7 @@
 (define-key global-map (kbd "C-x SPC") 'cua-set-rectangle-mark)
 
 (require 'flymake)
-;(setq flymake-gui-warnings-enabled nil)
+(setq flymake-gui-warnings-enabled nil)
 (global-set-key "\C-cd" 'flymake-popup-current-error-menu)
 (defun flymake-c-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
