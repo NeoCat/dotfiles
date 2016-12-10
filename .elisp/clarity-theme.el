@@ -83,7 +83,7 @@
  '(italic ((t (:italic t :slant italic))))
  '(menu ((t (nil))))
  '(minibuffer-prompt ((t (:foreground "cyan"))))
- '(mode-line ((t (:foreground "yellow" :background "darkslateblue"
+ '(mode-line ((t (:foreground "black" :background "darkslateblue"
                   :box (:line-width -1 :style released-button)))))
  '(mouse ((t (:background "white"))))
  '(region ((t (:background "blue"))))
