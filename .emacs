@@ -107,9 +107,9 @@
 (defun indent-2s ()
   "Set indent to 2-spaces mode"
   (interactive "")
+  (setq indent-tabs-mode nil)
   (c-set-style "stroustrup")
-  (setq c-basic-offset 2)
-  (setq indent-tabs-mode nil))
+  (setq c-basic-offset 2))
 
 (defun indent-4s ()
   "Set indent to 4-spaces mode"
