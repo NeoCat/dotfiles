@@ -25,6 +25,7 @@
 (setq auto-save-default nil)
 (setq vc-follow-symlinks nil)
 
+(setq display-time-24hr-format t)
 (display-time)
 (column-number-mode t)
 (line-number-mode t)
