@@ -191,3 +191,10 @@
   (setq mozc-candidate-style 'overlay))
 
 (setq ruby-insert-encoding-magic-comment nil)
+
+(setq load-path
+      (append (list (expand-file-name "~/.elisp/expand-region.el/")) load-path))
+(when (require 'expand-region nil t)
+  (global-set-key (kbd "C-@") 'er/expand-region)
+  (global-set-key (kbd "C-M-@") 'er/contract-region))
+
