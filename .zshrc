@@ -14,7 +14,7 @@ export FTP_PASSIVE=1
 export RSH=ssh
 export CVS_RSH=ssh
 export REPORTTIME=5
-which npm >/dev/null && export NODE_PATH=`npm root -g`
+which npm >&/dev/null && export NODE_PATH=`npm root -g`
 
 # パス重複排除
 typeset -U path PATH
