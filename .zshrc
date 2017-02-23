@@ -14,7 +14,10 @@ export FTP_PASSIVE=1
 export RSH=ssh
 export CVS_RSH=ssh
 export REPORTTIME=5
-which npm >&/dev/null && export NODE_PATH=`npm root -g`
+if which npm >&/dev/null && [[ -z "$NODE_PATH" ]]; then
+    export NODE_PATH=`npm root -g`
+    echo "export NODE_PATH='$NODE_PATH'" >> ~/.zshrc_by_host
+fi
 
 # パス重複排除
 typeset -U path PATH
