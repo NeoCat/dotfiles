@@ -164,6 +164,7 @@ unsetopt promptcr		# 改行のない出力をプロンプトで上書きする�
 setopt PROMPT_SUBST
 PROMPT="%F{green}[%m-%T]%f%# "
 RPROMPT="%(?..%F{red}-%?-)%F{green}[%1(v|%F{yellow}%1v%F{green} |)%n:%~]%f"
+[[ -n "$SSH_CLIENT" ]] && PROMPT="%F{green}[%F{cyan}%B%m%b%F{green}-%T]%f%# "
 
 #自動ログアウト
 autoload colors && colors
