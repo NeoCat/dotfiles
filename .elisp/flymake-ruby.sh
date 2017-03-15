@@ -1,7 +1,7 @@
 #!/bin/sh
 RUBOCOP="rubocop --format emacs"
 
-function exists {
+exists () {
     which "$1" >/dev/null 2>&1
 }
 
