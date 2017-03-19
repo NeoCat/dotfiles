@@ -180,7 +180,7 @@ check_autologout() {
 reset_tmout() { TMOUT=$[60-EPOCHSECONDS%60] }
 precmd_functions=($precmd_functions reset_tmout reset_autologout)
 redraw_tmout() { zle reset-prompt; reset_tmout }
-TRAPALRM() { check_autologout; redraw_tmout }
+TRAPALRM() { check_autologout; check_gitinfo_update; redraw_tmout }
 
 #ウィンドウタイトル
 case "$TERM" in
@@ -276,13 +276,38 @@ update_vcs_info() {
   LANG=en_US.UTF-8 vcs_info
   [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
+#同一dir内でシェル外でgitのHEADが更新されていたら情報更新
+check_gitinfo_update() {
+  if [ -n "$_git_info_dir" -a -n "$_git_info_check_date" ]; then
+    if [ -f "$_git_info_dir"/HEAD(ms-$((EPOCHSECONDS-$_git_info_check_date))) ]; then
+      _git_info_check_date=$EPOCHSECONDS
+      update_vcs_info
+    fi 2>/dev/null
+  fi
+}
 #カレントディレクトリ変更時/git関連コマンド実行時に情報更新
 precmd_gitupdate() {
-  _r=$?
+  local _r=$?
+  local _git_used=0
   case "${_cmd}" in
-    git*|stg*) update_vcs_info ;;
-    *) [ "${_lastdir}" != "$PWD" ] && update_vcs_info ;;
+    git*|stg*) _git_used=1
   esac
+  if [ $_git_used = 1 -o "${_lastdir}" != "$PWD" ]; then
+    local cwd="./"
+    _git_info_dir=
+    _git_info_date=
+    while [ "$(echo $cwd(:a))" != / ]; do
+      if [ -f .git/HEAD ]; then
+        _git_info_dir="$PWD/.git"
+        _git_info_check_date=$EPOCHSECONDS
+        break
+      fi
+      cwd="../$cwd"
+    done
+    update_vcs_info
+  else
+    check_gitinfo_update
+  fi
   return $_r
 }
 precmd_functions=($precmd_functions precmd_gitupdate)
