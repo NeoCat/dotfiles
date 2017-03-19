@@ -295,7 +295,7 @@ precmd_gitupdate() {
   if [ $_git_used = 1 -o "${_lastdir}" != "$PWD" ]; then
     local cwd="./"
     _git_info_dir=
-    _git_info_date=
+    _git_info_check_date=
     while [ "$(echo $cwd(:a))" != / ]; do
       if [ -f .git/HEAD ]; then
         _git_info_dir="$PWD/.git"
