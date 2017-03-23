@@ -181,17 +181,24 @@ check_autologout() {
 reset_tmout() { TMOUT=$[60-EPOCHSECONDS%60] }
 reset_lastcomp() { _lastcomp=() }
 precmd_functions=($precmd_functions reset_tmout reset_lastcomp reset_autologout)
-redraw_tmout() {
-    if is-at-least 5.1; then
-	# avoid menuselect to be cleared by reset-prompt
+if is-at-least 5.1; then
+    # avoid menuselect to be cleared by reset-prompt
+    redraw_tmout() {
         [ "$WIDGET" = "expand-or-complete" ] && [[ "$_lastcomp[insert]" =~ "^automenu$|^menu:" ]] || zle reset-prompt
-    else
-	# evaluating $WIDGET in TMOUT may crash :(
-        zle reset-prompt
-    fi
-    reset_tmout
-}
+        reset_tmout
+    }
+else
+    # evaluating $WIDGET in TMOUT may crash :(
+    redraw_tmout() { zle reset-prompt; reset_tmout }
+fi
 TRAPALRM() { check_autologout; check_gitinfo_update; redraw_tmout }
+
+show_second() {
+    PROMPT="%F{green}[%m-%*]%f%# "
+    [[ -n "$SSH_CLIENT" ]] && PROMPT="%F{green}[%F{cyan}%B%m%b%F{green}-%*]%f%# "
+    reset_tmout() { }
+    TMOUT=1
+}
 
 #ウィンドウタイトル
 case "$TERM" in
@@ -290,10 +297,13 @@ update_vcs_info() {
 #同一dir内でシェル外でgitのHEADが更新されていたら情報更新
 check_gitinfo_update() {
   if [ -n "$_git_info_dir" -a -n "$_git_info_check_date" ]; then
+    local _old=$options[nomatch]
+    setopt nonomatch
     if [ -f "$_git_info_dir"/HEAD(ms-$((EPOCHSECONDS-$_git_info_check_date))) ]; then
       _git_info_check_date=$EPOCHSECONDS
       update_vcs_info
-    fi 2>/dev/null
+    fi
+    [ $_old = on ] && setopt nomatch
   fi
 }
 #カレントディレクトリ変更時/git関連コマンド実行時に情報更新
