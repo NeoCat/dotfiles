@@ -130,6 +130,7 @@ if zle -la | grep -q '^history-incremental-pattern-search'; then
   bindkey '^S' history-incremental-pattern-search-forward
 fi
 
+autoload -U is-at-least
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
@@ -178,8 +179,18 @@ check_autologout() {
 }
 #プロンプトの時刻を更新
 reset_tmout() { TMOUT=$[60-EPOCHSECONDS%60] }
-precmd_functions=($precmd_functions reset_tmout reset_autologout)
-redraw_tmout() { zle reset-prompt; reset_tmout }
+reset_lastcomp() { _lastcomp=() }
+precmd_functions=($precmd_functions reset_tmout reset_lastcomp reset_autologout)
+redraw_tmout() {
+    if is-at-least 5.1; then
+	# avoid menuselect to be cleared by reset-prompt
+        [ "$WIDGET" = "expand-or-complete" ] && [[ "$_lastcomp[insert]" =~ "^automenu$|^menu:" ]] || zle reset-prompt
+    else
+	# evaluating $WIDGET in TMOUT may crash :(
+        zle reset-prompt
+    fi
+    reset_tmout
+}
 TRAPALRM() { check_autologout; check_gitinfo_update; redraw_tmout }
 
 #ウィンドウタイトル
