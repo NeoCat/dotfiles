@@ -67,6 +67,7 @@ alias sudo='nocorrect sudo'	#スペルチェックをしない
 alias ssh-config="zed ~/.ssh/config"
 alias sc="sudo systemctl"
 alias E="emacsclient -a '' -t"
+alias be="bundle exec"
 alias -g H='| head'
 alias -g T='| tail'
 alias -g G='| egrep --color=auto'
