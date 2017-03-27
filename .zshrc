@@ -273,6 +273,22 @@ function file_send {
 	)
 }
 
+# 上方ファイル検索
+search_to_top_dir() {
+    local opt="$1"
+    local arg="$2"
+    local cwd=${3-.}
+    while :; do
+	local abs="$(echo $cwd(:a))"
+	if [ "$opt" "$abs/$arg" ]; then
+	    _dir_found="$abs"
+	    return 0
+	fi
+	[ "$(echo $cwd(:a))" = / ] && return 1
+	cwd="$cwd/.."
+    done
+}
+
 ###### git 関連 ######
 
 #gitブランチ名表示
@@ -315,17 +331,12 @@ precmd_gitupdate() {
     git*|stg*) _git_used=1
   esac
   if [ $_git_used = 1 -o "${_lastdir}" != "$PWD" ]; then
-    local cwd="./"
     _git_info_dir=
     _git_info_check_date=
-    while [ "$(echo $cwd(:a))" != / ]; do
-      if [ -f .git/HEAD ]; then
-        _git_info_dir="$PWD/.git"
-        _git_info_check_date=$EPOCHSECONDS
-        break
-      fi
-      cwd="../$cwd"
-    done
+    if search_to_top_dir -d .git && [ -f "$_dir_found"/.git/HEAD ]; then
+      _git_info_dir="$_dir_found/.git"
+      _git_info_check_date=$EPOCHSECONDS
+    fi
     update_vcs_info
   else
     check_gitinfo_update
@@ -333,6 +344,19 @@ precmd_gitupdate() {
   return $_r
 }
 precmd_functions=($precmd_functions precmd_gitupdate)
+
+###########
+# bundle exec省略: bundle install --binstubs=vendor/bin を想定
+bundle_exec_check () {
+    [ -n "$_ruby_bundle_bin_dir" ] && export PATH="${PATH/$_ruby_bundle_bin_dir:/}"
+    unset _ruby_bundle_bin_dir
+    if search_to_top_dir -f Gemfile && [ -d "$_dir_found"/vendor/bin ]; then
+	_ruby_bundle_bin_dir="$_dir_found/vendor/bin"
+	export PATH="$_ruby_bundle_bin_dir:$PATH"
+    fi
+}
+chpwd_functions=($chpwd_functions bundle_exec_check)
+bundle_exec_check  # 初回実行
 
 ############
 
@@ -344,4 +368,3 @@ if declare -f _postinit_by_host >/dev/null; then
   _postinit_by_host
   unset -f _postinit_by_host
 fi
-
