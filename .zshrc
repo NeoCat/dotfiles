@@ -162,7 +162,7 @@ hosts=( ${(@)${${(M)${(s:# :)${(zj:# :)${(Lf)"$([[ -f ~/.ssh/config ]] && < ~/.s
 zstyle ':completion:*:hosts' hosts $hosts      # .ssh/configに指定したホストをsshなどの補完候補に
 
 #プロンプト
-unsetopt promptcr		# 改行のない出力をプロンプトで上書きするのを防ぐ
+# unsetopt promptcr		# 改行のない出力をプロンプトで上書きするのを防ぐ
 setopt PROMPT_SUBST
 PROMPT="%F{green}[%m-%T]%f%# "
 RPROMPT="%(?..%F{red}-%?-)%F{green}[%1(v|%F{yellow}%1v%F{green} |)%n:%~]%f"
