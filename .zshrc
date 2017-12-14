@@ -48,6 +48,7 @@ else
 fi
 alias j=jobs
 alias c=clear
+alias g=git
 alias cl="c;l"
 alias df="df -h"
 alias du="du -h"
