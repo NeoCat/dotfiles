@@ -329,7 +329,7 @@ precmd_gitupdate() {
   local _r=$?
   local _git_used=0
   case "${_cmd}" in
-    git*|stg*) _git_used=1
+    g\ *|git*|stg*) _git_used=1
   esac
   if [ $_git_used = 1 -o "${_lastdir}" != "$PWD" ]; then
     _git_info_dir=
