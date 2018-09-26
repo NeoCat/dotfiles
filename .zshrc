@@ -173,7 +173,7 @@ if [[ -n "$POWERLINE_FONT_ENABLED" ]] then
    local _pc=029
    [[ -n "$SSH_CLIENT" ]] && _pc=202
   PROMPT="%K{$_pc}%f %m%F{$_pc} %K{238}%f%T%k%F{238}%f ";
-  RPROMPT="%(?..%F{001}%f%K{001}%?%f%K{001})%1(v|%F{229}%K{229}%F{000}%1v|)%F{238}%f%K{238}%n%F{232}%F{$_pc}%f%K{$_pc}%~ %f%k"
+  RPROMPT="%(?..%F{001}%f%K{001}%?%f%K{001})%1(v|%F{229}%K{229}%F{000}%1v|)%F{238}%f%K{238}%n%F{232}%F{$_pc}%f%K{$_pc}%~%{ [1D%}%f%k"
   unset _pc
 fi
 
