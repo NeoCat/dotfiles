@@ -11,6 +11,19 @@
 
 (unless window-system (menu-bar-mode 0))
 
+(when (getenv "POWERLINE_FONT_ENABLED")
+  (require 'powerline)
+  (set-face-attribute 'mode-line nil
+                      :foreground "#fff"
+                      :background "#800")
+  (set-face-attribute 'powerline-active1 nil
+                      :background "#333")
+  (set-face-attribute 'powerline-active2 nil
+                      :foreground "#999"
+                      :background "#537"
+		      :bold t)
+  (powerline-default-theme))
+
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key [select] [(shift up)])
 
