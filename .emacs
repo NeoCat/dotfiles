@@ -70,8 +70,6 @@
 			anything-c-source-emacs-commands))
 (global-set-key "\C-^" 'anything)
 
-(require 'twittering-mode)
-
 ;(server-start)
 ;
 (autoload 'whitespace-mode "whitespace-mode")
