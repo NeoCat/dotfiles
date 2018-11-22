@@ -155,41 +155,33 @@
 (global-set-key "\C-cd" 'flymake-popup-current-error-menu)
 (defun flymake-c-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-		       'flymake-create-temp-inplace))
+		       'flymake-create-temp-with-folder-structure))
 	 (local-file  (file-relative-name
 		       temp-file
 		       (file-name-directory buffer-file-name))))
-    (list "gcc" (list "-Wall" "-Wextra" "-fsyntax-only" local-file))))
+    (list "gcc" (list "-Wall" "-Wextra" "-fsyntax-only" "-fdiagnostics-color=never" local-file))))
 (defun flymake-cc-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-		       'flymake-create-temp-inplace))
+		       'flymake-create-temp-with-folder-structure))
 	 (local-file  (file-relative-name
 		       temp-file
 		       (file-name-directory buffer-file-name))))
-    (list "g++" (list "-Wall" "-Wextra" "-fsyntax-only" local-file))))
+    (list "g++" (list "-Wall" "-Wextra" "-fsyntax-only" "-fdiagnostics-color=never" local-file))))
 (push '("\\.c$" flymake-c-init) flymake-allowed-file-name-masks)
 (push '("\\.cpp$" flymake-cc-init) flymake-allowed-file-name-masks)
 (add-hook 'c-mode-common-hook
 	  '(lambda ()
 	     (flymake-mode t)))
+
 (global-set-key "\M-n" 'flymake-goto-next-error)
 (global-set-key "\M-p" 'flymake-goto-prev-error)
-(defun display-error-message ()
-  (message (get-char-property (point) 'help-echo)))
-(defadvice flymake-goto-prev-error
-    (after flymake-goto-prev-error-display-message) (display-error-message))
-(defadvice flymake-goto-next-error
-    (after flymake-goto-next-error-display-message) (display-error-message))
-(ad-activate 'flymake-goto-prev-error 'flymake-goto-prev-error-display-message)
-(ad-activate 'flymake-goto-next-error 'flymake-goto-next-error-display-message)
 
-(defun flymake-get-temp-dir () "~/.emacs.d/tmp/")
 (setq fly-hack-helper "~/.elisp/fly-hack.py")
 (require 'fly-hack nil t)
 
 (defun flymake-ruby-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
+                       'flymake-create-temp-with-folder-structure))
           (local-file  (file-relative-name
                        temp-file
                        (file-name-directory buffer-file-name))))
