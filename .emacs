@@ -70,24 +70,9 @@
 			anything-c-source-emacs-commands))
 (global-set-key "\C-^" 'anything)
 
-;(server-start)
-;
 (autoload 'whitespace-mode "whitespace-mode")
 (autoload 'systemtap-mode "systemtap-mode")
 (add-to-list 'auto-mode-alist '("\\.stp\\'" . systemtap-mode))
-;
-(autoload 'ruby-mode "ruby-mode" nil t)
-(autoload 'ruby-mode "ruby-electric" nil t)
-(setq auto-mode-alist (cons '("\\.rb$" . ruby-mode) auto-mode-alist))
-
-(autoload 'run-ruby "inf-ruby"
-  "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby"
-  "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook
-      '(lambda ()
-         (inf-ruby-keys)
-))
 
 (add-hook 'perl-mode-hook
           '(lambda ()
@@ -204,12 +189,6 @@
   (setq mozc-candidate-style 'overlay))
 
 (setq ruby-insert-encoding-magic-comment nil)
-
-(setq load-path
-      (append (list (expand-file-name "~/.elisp/expand-region.el/")) load-path))
-(when (require 'expand-region nil t)
-  (global-set-key (kbd "C-]") 'er/expand-region)
-  (global-set-key (kbd "C-M-]") 'er/contract-region))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
