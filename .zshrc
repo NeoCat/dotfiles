@@ -342,9 +342,17 @@ precmd_gitupdate() {
   if [ $_git_used = 1 -o "${_lastdir}" != "$PWD" ]; then
     _git_info_dir=
     _git_info_check_date=
-    if search_to_top_dir -d .git && [ -f "$_dir_found"/.git/HEAD ]; then
+    if search_to_top_dir -e .git; then
+     if [ -f "$_dir_found"/.git/HEAD ]; then
       _git_info_dir="$_dir_found/.git"
       _git_info_check_date=$EPOCHSECONDS
+     elif [ -f "$_dir_found"/.git ]; then
+       local _path="${$(<"$_dir_found"/.git)#gitdir: }"
+       if [ -d "$_path" ]; then
+         _git_info_dir="$_path"
+         _git_info_check_date=$EPOCHSECONDS
+       fi
+      fi
     fi
     update_vcs_info
   else
