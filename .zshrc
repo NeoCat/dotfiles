@@ -159,7 +159,7 @@ setopt auto_cd			# ディレクトリ名を実行するとcd, ディレクトリ
 setopt auto_pushd		# cd -[tabキー]で過去のディレクトリを補完
 setopt auto_param_keys	# 括弧等の補完
 
-hosts=( ${(@)${${(M)${(s:# :)${(zj:# :)${(Lf)"$([[ -f ~/.ssh/config ]] && < ~/.ssh/config)"}%%\#*}}##host(|name) *}#host(|name) }/\*} )
+hosts=( ${(@)${${(M)${(s:# :)${(zj:# :)${(Lf)"$([[ -f ~/.ssh/config ]] && < ~/.ssh/config*)"}%%\#*}}##host(|name) *}#host(|name) }/\*} )
 zstyle ':completion:*:hosts' hosts $hosts      # .ssh/configに指定したホストをsshなどの補完候補に
 
 #プロンプト
