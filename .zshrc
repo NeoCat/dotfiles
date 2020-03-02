@@ -378,7 +378,7 @@ bundle_exec_check  # 初回実行
 ############
 
 # dotfilesの自動アップデート(1日1回)
-(: ~/.dotfiles/.git/FETCH_HEAD(md-1)) NLL || (cd ~/.dotfiles; [[ "$(git pull)" =~ "Already up.to.date" ]] || echo .dotfiles updated)&!
+(: ~/.dotfiles/.git/FETCH_HEAD(md-1)) NLL || (cd ~/.dotfiles; git pull | grep "Already up.to.date" >/dev/null || echo .dotfiles updated)&
 
 # .zshrc_by_hostで定義した後処理の実行
 if declare -f _postinit_by_host >/dev/null; then
