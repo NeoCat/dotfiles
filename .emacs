@@ -13,6 +13,8 @@
 
 (unless window-system (menu-bar-mode 0))
 
+(set-language-environment "English")
+
 (when (getenv "POWERLINE_FONT_ENABLED")
   (require 'powerline)
   (set-face-attribute 'mode-line nil
