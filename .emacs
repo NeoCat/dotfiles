@@ -3,6 +3,8 @@
 	       (expand-file-name "~/.elisp/"))
 	      load-path))
 
+(setq byte-compile-warnings '(not cl-functions obsolete))
+
 (when (boundp 'custom-theme-load-path)
   (add-to-list 'custom-theme-load-path
 	       (file-name-as-directory "~/.elisp/"))
@@ -47,11 +49,8 @@
 (line-number-mode t)
 
 (require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.elisp/snippets/")
-
-;; (require 'pabbrev)
-;; (global-pabbrev-mode)
+(setq yas-snippet-dirs '("~/.elisp/snippets"))
+(yas-global-mode 1)
 
 (ignore-errors (require 'xcscope))
 (setq cscope-do-not-update-database t)
@@ -176,13 +175,18 @@
 (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
 (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
 (push '("^\\(.*\\):\\([0-9]+\\):[0-9]+: \\(.\\): \\(.*\\)$" 1 2 3 4) flymake-err-line-patterns)
+(autoload 'inf-ruby-minor-mode "inf-ruby" "Run an inferior Ruby process" t)
+(require 'rspec-mode)
+(setenv "PAGER" (executable-find "cat"))
 (add-hook 'ruby-mode-hook
           '(lambda ()
              ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
              (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
                  (flymake-mode t))
-             ))
-
+	     (inf-ruby-minor-mode)
+	     (inf-ruby-switch-setup)
+	     (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter)
+          ))
 (when (locate-library "mozc")
   (require 'mozc)
   (setq default-input-method "japanese-mozc")
