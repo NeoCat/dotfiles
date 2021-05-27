@@ -84,7 +84,6 @@
           '(lambda ()
 	     (define-key c-mode-base-map "\C-cc" 'compile)
 	     (define-key c-mode-base-map "\C-ce" 'next-error)
-	     (c-toggle-hungry-state 1)
              (c-set-style "linux")
 	     (setq tab-width 8)))
 
