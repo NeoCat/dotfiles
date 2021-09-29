@@ -13,7 +13,7 @@ until [ "$PWD" = "/" ]; do
 	if grep rubocop Gemfile.lock >/dev/null; then
 	    opt=""
 	    [ -f .rubocop.yml ] && opt="-c .rubocop.yml"
-	    exec bundle exec $RUBOCOP $opt $abspath 2>&1
+	    exec bundle exec $RUBOCOP $opt "$abspath" 2>/dev/null
 	fi
 	break
     fi

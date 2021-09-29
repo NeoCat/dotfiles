@@ -164,6 +164,7 @@
 (setq fly-hack-helper "~/.elisp/fly-hack.py")
 (require 'fly-hack nil t)
 
+(setq ruby-flymake-use-rubocop-if-available nil)
 (defun flymake-ruby-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
                        'flymake-create-temp-with-folder-structure))
