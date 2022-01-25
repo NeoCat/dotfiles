@@ -31,6 +31,10 @@
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
+(add-hook 'font-lock-mode-hook
+          '(lambda ()
+	     (set-face-foreground 'font-lock-constant-face "cyan1")))
+
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key [select] [(shift up)])
 
@@ -76,7 +80,7 @@
         (tab-count (how-many "^\t" (point-min) (min (+ (point-min) 1024) (point-max)))))
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
-(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 
 (autoload 'whitespace-mode "whitespace-mode")
 (autoload 'systemtap-mode "systemtap-mode")
