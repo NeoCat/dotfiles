@@ -71,6 +71,13 @@
 			anything-c-source-emacs-commands))
 (global-set-key "\C-^" 'anything)
 
+(defun infer-indentation-style ()
+  (let ((space-count (how-many "^  " (point-min) (min (+ (point-min) 1024) (point-max))))
+        (tab-count (how-many "^\t" (point-min) (min (+ (point-min) 1024) (point-max)))))
+    (if (> space-count tab-count) (setq indent-tabs-mode nil))
+    (if (> tab-count space-count) (setq indent-tabs-mode t))))
+(setq indent-tabs-mode nil)
+
 (autoload 'whitespace-mode "whitespace-mode")
 (autoload 'systemtap-mode "systemtap-mode")
 (add-to-list 'auto-mode-alist '("\\.stp\\'" . systemtap-mode))
@@ -85,6 +92,7 @@
 	     (define-key c-mode-base-map "\C-cc" 'compile)
 	     (define-key c-mode-base-map "\C-ce" 'next-error)
              (c-set-style "linux")
+	     (infer-indentation-style)
 	     (setq tab-width 8)))
 
 (add-hook 'js-mode-hook
