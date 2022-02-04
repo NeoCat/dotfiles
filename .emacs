@@ -23,10 +23,12 @@
   (set-face-attribute 'powerline-active1 nil
                       :background "#333")
   (set-face-attribute 'powerline-active2 nil
-                      :foreground "#999"
+                      :foreground "#dde"
                       :background "#537"
 		      :bold t)
-  (powerline-default-theme))
+  (custom-set-variables '(powerline-display-buffer-size nil)
+                        '(powerline-display-hud nil))
+  (powerline-custom-theme))
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
@@ -46,6 +48,7 @@
 (setq-default transient-mark-mode t)
 
 (setq backup-inhibited t)
+(setq create-lockfiles nil)
 (setq auto-save-default nil)
 (setq vc-follow-symlinks nil)
 
