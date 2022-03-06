@@ -1,0 +1,22 @@
+[user]
+	name = NeoCat
+	email = neocat@neocat.jp
+[alias]
+	oneline = log --oneline --decorate
+	graph = log --oneline --graph --decorate
+	d = diff
+	dc = diff --cached
+	co = checkout
+	cob = checkout -b
+	pushup = push --set-upstream origin $(git branch)
+        ru = remote update --prune
+	st = status
+[pull]
+	ff = only
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[core]
+	excludesfile = ~/.gitignore_global
