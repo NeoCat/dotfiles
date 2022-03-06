@@ -4,7 +4,7 @@
 ###
 # 環境変数設定
 ###
-export PATH=$HOME/bin:$PATH:/usr/sbin
+export PATH=$HOME/bin:$PATH:/usr/sbin:/sbin
 export MANPATH=/usr/local/man:$MANPATH
 #export EDITOR=emacs
 export LSCOLORS="hxExcxdxBxhghdabagacad"
