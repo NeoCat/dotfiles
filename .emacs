@@ -95,6 +95,11 @@
 (autoload 'systemtap-mode "systemtap-mode")
 (add-to-list 'auto-mode-alist '("\\.stp\\'" . systemtap-mode))
 
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+(setq-default lua-indent-level 2)
+
 (add-hook 'perl-mode-hook
           '(lambda ()
 	     (setq tab-width 4)
