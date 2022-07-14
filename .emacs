@@ -32,6 +32,12 @@
                       :foreground "#dde"
                       :background "#537"
 		      :bold t)
+  (set-face-attribute 'powerline-inactive1 nil
+                    :foreground "#999"
+                    :background "#222")
+  (set-face-attribute 'powerline-inactive2 nil
+                    :foreground "#aaa"
+                    :background "#444")
   (custom-set-variables '(powerline-display-buffer-size nil)
                         '(powerline-display-hud nil))
   (powerline-custom-theme))
