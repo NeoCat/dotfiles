@@ -21,6 +21,8 @@
              (:background "#111122" :foreground "white")
              )))))
 
+(setq frame-background-mode "dark")
+
 (when (or (getenv "POWERLINE_FONT_ENABLED") (equal window-system 'mac) (equal window-system 'ns))
   (require 'powerline)
   (set-face-attribute 'mode-line nil
