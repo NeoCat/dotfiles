@@ -251,4 +251,7 @@
  '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "#af87ff"))))
  '(rainbow-delimiters-depth-8-face ((t (:inherit rainbow-delimiters-base-face :foreground "#afd700"))))
  '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "#d7afff"))))
- '(rainbow-delimiters-unmatched-face ((t (:inherit rainbow-delimiters-base-face :foreground "red")))))
+ '(rainbow-delimiters-unmatched-face ((t (:inherit rainbow-delimiters-base-face :foreground "red"))))
+ '(company-tooltip ((t (:background "#444444" :foreground "#ffffff"))))
+ '(company-tooltip-common ((t (:background "#cc4444" :foreground "#ffffff"))))
+ '(company-tooltip-selection ((t (:background "#4444cc" :foreground "#ffffff")))))
