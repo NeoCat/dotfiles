@@ -198,6 +198,11 @@
 (setq fly-hack-helper "~/.elisp/fly-hack.py")
 (require 'fly-hack nil t)
 
+(setq ispell-program-name "aspell")
+(setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--run-together-limit=16"))
+(setq flyspell-mark-duplications-flag nil)
+(global-set-key "\M-#" '(lambda () (interactive) (flyspell-mode) (flyspell-buffer)))
+
 (setq ruby-flymake-use-rubocop-if-available nil)
 (defun flymake-ruby-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
@@ -242,6 +247,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-tooltip ((t (:background "#444444" :foreground "#ffffff"))))
+ '(company-tooltip-common ((t (:background "#cc4444" :foreground "#ffffff"))))
+ '(company-tooltip-selection ((t (:background "#4444cc" :foreground "#ffffff"))))
+ '(header-line ((t (:background "#003333" :foreground "brightyellow"))))
  '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "#ffd700"))))
  '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "#87d7ff"))))
  '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "#af87ff"))))
@@ -251,7 +260,4 @@
  '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "#af87ff"))))
  '(rainbow-delimiters-depth-8-face ((t (:inherit rainbow-delimiters-base-face :foreground "#afd700"))))
  '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "#d7afff"))))
- '(rainbow-delimiters-unmatched-face ((t (:inherit rainbow-delimiters-base-face :foreground "red"))))
- '(company-tooltip ((t (:background "#444444" :foreground "#ffffff"))))
- '(company-tooltip-common ((t (:background "#cc4444" :foreground "#ffffff"))))
- '(company-tooltip-selection ((t (:background "#4444cc" :foreground "#ffffff")))))
+ '(rainbow-delimiters-unmatched-face ((t (:inherit rainbow-delimiters-base-face :foreground "red")))))
