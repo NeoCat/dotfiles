@@ -407,9 +407,9 @@ word in the function's name, e.g. \"bb\" is an abbrev for
     (init . (lambda ()
               (unless anything-c-source-file-cache-initialized
                 (setq anything-c-file-cache-files
-                      (loop for item in file-cache-alist append
+                      (cl-loop for item in file-cache-alist append
                             (destructuring-bind (base &rest dirs) item
-                              (loop for dir in dirs collect
+                              (cl-loop for dir in dirs collect
                                     (concat dir base)))))
                 (defadvice file-cache-add-file (after file-cache-list activate)
                   (add-to-list 'anything-c-file-cache-files (expand-file-name file)))
@@ -835,10 +835,10 @@ displayed with the `file-name-shadow' face if available."
   "Files matching `anything-c-boring-file-regexp' will be
 skipped."
   (let (filtered-files)
-    (loop for file in files
+    (cl-loop for file in files
           do (when (not (string-match anything-c-boring-file-regexp file))
                (push file filtered-files))
-          finally (return (nreverse filtered-files)))))
+          finally (cl-return (nreverse filtered-files)))))
 
 (defun anything-c-w32-pathname-transformer (args)
   "Change undesirable features of windows pathnames to ones more acceptable to
@@ -866,12 +866,12 @@ other candidate transformers."
 (defun anything-c-mark-interactive-functions (functions)
   "Mark interactive functions (commands) with (i) after the function name."
   (let (list)
-    (loop for function in functions
+    (cl-loop for function in functions
           do (push (cons (concat function
                                  (when (commandp (intern function)) " (i)"))
                          function)
                    list)
-          finally (return (nreverse list)))))
+          finally (cl-return (nreverse list)))))
 
 ;;; Filtered Candidate Transformers
 
@@ -1003,7 +1003,7 @@ attribute `filtered-candidate-transformer' of a source in
                          (dolist (pattern-info (cdr candidate-info))
                            (if (not (equal (car pattern-info)
                                            anything-pattern))
-                               (incf count (cdr pattern-info))
+                               (cl-incf count (cdr pattern-info))
 
                              ;; if current pattern is equal to the previously
                              ;; used one then this candidate has priority
@@ -1011,7 +1011,7 @@ attribute `filtered-candidate-transformer' of a source in
                              ;; it only has to compete with other candidates
                              ;; which were also selected with the same pattern
                              (setq count (+ 10000 (cdr pattern-info)))
-                             (return)))
+                             (cl-return)))
                          (cons (car candidate-info) count)))
                      (cdr source-info)))
             sorted)

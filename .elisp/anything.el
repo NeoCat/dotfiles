@@ -1325,7 +1325,7 @@ This flag makes `anything' a bit faster with many sources.")
   "Restore variables specified by `anything-restored-variables' after executing BODY ."
   `(let ((--orig-vars (mapcar (lambda (v) (cons v (symbol-value v))) anything-restored-variables)))
      (unwind-protect (progn ,@body)
-       (loop for (var . value) in --orig-vars
+       (cl-loop for (var . value) in --orig-vars
              do (set var value)))))
 (put 'with-anything-restore-variables 'lisp-indent-function 0)
 
@@ -1455,7 +1455,7 @@ Attributes:
       (let* ((header-pos (anything-get-previous-header-pos))
              (source-name
               (save-excursion
-                (assert header-pos)
+                (cl-assert header-pos)
                 (goto-char header-pos)
                 (buffer-substring-no-properties
                  (line-beginning-position) (line-end-position)))))
@@ -1724,10 +1724,10 @@ necessary."
 Anything plug-ins are realized by this function."
   (mapcar
    (lambda (source)
-     (loop with source = (if (listp source) source (symbol-value source))
+     (cl-loop with source = (if (listp source) source (symbol-value source))
            for f in funcs
            do (setq source (funcall f source))
-           finally (return source)))
+           finally (cl-return source)))
    sources))  
 
 ;; (@* "Core: all candidates")
@@ -1827,15 +1827,15 @@ Cache the candidates if there is not yet a cached value."
                     (push candidate newmatches)
 
                     (when limit
-                      (incf item-count)
+                      (cl-incf item-count)
                       (when (= item-count limit)
                         (setq exit t)
-                        (return)))))
+                        (cl-return)))))
 
                 (setq matches (append matches (reverse newmatches)))
 
                 (if exit
-                    (return)))))
+                    (cl-return)))))
 
         (invalid-regexp (setq matches nil))))
 
@@ -1864,7 +1864,7 @@ Cache the candidates if there is not yet a cached value."
                                anything-digit-overlays)
                           (line-beginning-position)
                           (line-beginning-position))
-            (incf anything-digit-shortcut-count))
+            (cl-incf anything-digit-shortcut-count))
 
           (if (and multiline separate)
               (anything-insert-candidate-separator)
@@ -2029,10 +2029,10 @@ the real value in a text property."
           (setq candidates (reverse candidates))
           (dolist (candidate (anything-transform-candidates candidates process-info))
             (anything-insert-match candidate 'insert-before-markers)
-            (incf (cdr item-count-info))
+            (cl-incf (cdr item-count-info))
             (when (>= (cdr item-count-info) anything-candidate-number-limit)
               (anything-kill-async-process process)
-              (return)))))
+              (cl-return)))))
 
       (anything-maybe-fit-frame)
 
@@ -2160,8 +2160,8 @@ UNIT and DIRECTION."
   (unless (or (zerop (buffer-size (get-buffer (anything-buffer-get))))
               (not (anything-window)))
     (with-anything-window
-      (case unit
-        (line (case direction
+      (cl-case unit
+        (line (cl-case direction
                 (next (if (not (anything-pos-multiline-p))
                           (forward-line 1)
                         (let ((header-pos (anything-get-next-header-pos))
@@ -2192,7 +2192,7 @@ UNIT and DIRECTION."
                 
                 (t (error "Invalid direction."))))
 
-        (page (case direction
+        (page (cl-case direction
                 (next (condition-case nil
                           (scroll-up)
                         (end-of-buffer (goto-char (point-max)))))
@@ -2201,7 +2201,7 @@ UNIT and DIRECTION."
                             (beginning-of-buffer (goto-char (point-min)))))
                 (t (error "Invalid direction."))))
 
-        (source (case direction
+        (source (cl-case direction
                    (next (goto-char (or (anything-get-next-header-pos)
                                         (point-min))))
                    (previous (progn
@@ -2305,7 +2305,7 @@ UNIT and DIRECTION."
 ;; (@* "Core: misc")
 (defun anything-kill-buffer-hook ()
   "Remove tick entry from `anything-tick-hash' when killing a buffer."
-  (loop for key being the hash-keys in anything-tick-hash
+  (cl-loop for key being the hash-keys in anything-tick-hash
         if (string-match (format "^%s/" (regexp-quote (buffer-name))) key)
         do (remhash key anything-tick-hash)))
 (add-hook 'kill-buffer-hook 'anything-kill-buffer-hook)
@@ -2467,7 +2467,7 @@ get-line and search-from-end attributes. See also `anything-sources' docstring.
             (endp (if search-from-end #'bobp #'eobp)))
         (goto-char (1- start-point))
         (if (string= pattern "")
-            (delq nil (loop until (funcall endp)
+            (delq nil (cl-loop until (funcall endp)
                                     for i from 1 to limit
                                     collecting (funcall get-line-fn (point-at-bol) (point-at-eol))
                                     do (funcall next-line-fn 1)))
@@ -2489,18 +2489,18 @@ get-line and search-from-end attributes. See also `anything-sources' docstring.
                   (dolist (searcher search-fns)
                     (goto-char start-point)
                     (setq newmatches nil)
-                    (loop while (funcall searcher pattern nil t)
+                    (cl-loop while (funcall searcher pattern nil t)
                           if (or (funcall endp) (< limit i))
-                          do (setq exit t) (return)
+                          do (setq exit t) (cl-return)
                           else do
                           (let ((cand (funcall get-line-fn (point-at-bol) (point-at-eol))))
                             (unless (gethash cand anything-cib-hash)
                               (puthash cand t anything-cib-hash)
-                              (incf i)
+                              (cl-incf i)
                               (push cand newmatches)))
                           (funcall next-line-fn 1))
                     (setq matches (append matches (nreverse newmatches)))
-                    (if exit (return)))
+                    (if exit (cl-return)))
                 (goto-char (point-min))
                 (delete-char 1)
                 (goto-char (1- (point-max)))
@@ -2536,7 +2536,7 @@ Acceptable values of CREATE-OR-BUFFER:
           (add-to-list 'anything-candidate-buffer-alist
                        (cons anything-source-name create-or-buffer))
         (when (eq create-or-buffer 'global)
-          (loop for b in (buffer-list)
+          (cl-loop for b in (buffer-list)
                 if (string-match (format "^%s" (regexp-quote gbufname)) (buffer-name b))
                 do (kill-buffer b)))
         (with-current-buffer
@@ -4218,7 +4218,7 @@ Given pseudo `anything-sources' and `anything-pattern', returns list like
       (expect 1
         (let ((v 0))
           (anything-test-candidates '(((name . "test")
-                                       (candidates . (lambda () (incf v) '("ok")))
+                                       (candidates . (lambda () (cl-incf v) '("ok")))
                                        (volatile)
                                        (match identity identity identity)))
                                     "o")
