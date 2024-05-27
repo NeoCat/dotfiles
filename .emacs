@@ -57,6 +57,13 @@
 (global-set-key (kbd "M-[ 5 d") 'backward-word)
 (global-set-key (kbd "M-[ 5 c") 'forward-word)
 
+(defun pbcopy ()
+  (interactive)
+  (let ((deactivate-mark t))
+    (call-process-region (point) (mark) "pbcopy")
+    (message "Copied to clipboard")))
+(global-set-key "\C-cw" 'pbcopy)
+
 (setq indent-line-function 'indent-to-left-margin)
 
 (setq-default transient-mark-mode t)
@@ -98,6 +105,9 @@
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
 (setq-default indent-tabs-mode nil)
+
+(autoload 'go-mode "go-mode")
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 (autoload 'whitespace-mode "whitespace-mode")
 (autoload 'systemtap-mode "systemtap-mode")
