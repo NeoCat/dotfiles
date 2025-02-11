@@ -19,6 +19,17 @@ if which npm >&/dev/null && [[ -z "$NODE_PATH" ]]; then
     echo "export NODE_PATH='$NODE_PATH'" >> ~/.zshrc_by_host
 fi
 
+locales=$(locale -a 2>&1)
+if [ -n "$LANG" ] && ! grep -q "$LANG" <<<"$locales"; then
+    for l in ja_JP.UTF-8 en_US.UTF-8 C.UTF-8 C; do
+        if grep -q "$l" <<<"$locales"; then
+            export LANG="$l"
+            break
+        fi
+    done
+fi
+unset locales l
+
 # パス重複排除
 typeset -U path PATH
 path=(
@@ -55,7 +66,7 @@ alias du="du -h"
 alias rm="rm -i"
 alias cvs="cvs -q -z7"
 alias rmmd="rm (*~|.*~|\#*|.\#*)"
-alias jp='export LANG=ja_JP.utf8'
+alias jp='export LANG=ja_JP.UTF-8'
 alias java='java -Dfile.encoding=UTF-8'
 alias javac='javac -J-Dfile.encoding=UTF-8'
 alias egrepr="egrep -rnI --color=auto"
