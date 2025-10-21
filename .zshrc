@@ -19,7 +19,7 @@ if which npm >&/dev/null && [[ -z "$NODE_PATH" ]]; then
     echo "export NODE_PATH='$NODE_PATH'" >> ~/.zshrc_by_host
 fi
 
-locales=$(locale -a 2>&1)
+locales=$(locale -a 2>&1 | sed s/utf8/UTF-8/)
 if [ -n "$LANG" ] && ! grep -q "$LANG" <<<"$locales"; then
     for l in ja_JP.UTF-8 en_US.UTF-8 C.UTF-8 C; do
         if grep -q "$l" <<<"$locales"; then
