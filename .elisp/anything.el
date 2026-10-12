@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;;; anything.el --- open anything / QuickSilver-like candidate-selection framework
 ;; $Id: anything.el,v 1.138 2008/12/21 16:56:05 rubikitch Exp $
 

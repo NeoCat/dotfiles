@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;;; yasnippet.el --- Yet another snippet extension for Emacs
 
 ;; Copyright (C) 2008-2019 Free Software Foundation, Inc.

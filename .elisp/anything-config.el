@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;;; anything-config.el --- predefined configurations for anything
 
 ;; Copyright (C) 2007 Tassilo Horn
@@ -975,7 +976,7 @@ when the user goes to the action list with TAB."
   (interactive)
   (with-temp-buffer
     (insert
-     ";; -*- mode: emacs-lisp -*-\n"
+     ";; -*- mode: emacs-lisp; lexical-binding: t; -*-\n"
      ";; History entries used for anything adaptive display.\n")
     (prin1 `(setq anything-c-adaptive-history ',anything-c-adaptive-history)
            (current-buffer))

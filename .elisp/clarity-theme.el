@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;;; clarity-theme.el --- clarity theme
 
 ;; Copyright (C) 2003 by Richard Wellum

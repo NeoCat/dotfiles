@@ -1,9 +1,17 @@
+;; -*- lexical-binding: t; -*-
+
 (setq load-path
       (append (list
 	       (expand-file-name "~/.elisp/"))
 	      load-path))
 
 (setq byte-compile-warnings '(not cl-functions obsolete))
+
+;; temporal avoidance of jit version error
+(when (eq system-type 'darwin)
+  (setenv "MACOSX_DEPLOYMENT_TARGET"
+          (or (getenv "MACOSX_DEPLOYMENT_TARGET")
+              (string-trim (shell-command-to-string "sw_vers -productVersion")))))
 
 (when (boundp 'custom-theme-load-path)
   (add-to-list 'custom-theme-load-path
@@ -180,8 +188,19 @@
 (define-key global-map (kbd "C-x SPC") 'cua-set-rectangle-mark)
 
 (require 'flymake)
+(setq flymake-diagnostic-types-alist
+      '((:error   (before-string . nil))
+        (:warning (before-string . nil))
+        (:note    (before-string . nil))))
+(setq flymake-autoresize-margins nil)
 (setq flymake-gui-warnings-enabled nil)
-(global-set-key "\C-cd" 'flymake-popup-current-error-menu)
+(setq flymake-allowed-file-name-masks nil)
+(setq flymake-err-line-patterns nil)
+(setq flymake-mode-line-lighter nil)
+(setq eldoc-minor-mode-string nil)
+
+(global-set-key "\C-cd" 'flymake-show-buffer-diagnostics)
+
 (defun flymake-c-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
 		       'flymake-create-temp-with-folder-structure))
@@ -196,8 +215,6 @@
 		       temp-file
 		       (file-name-directory buffer-file-name))))
     (list "g++" (list "-Wall" "-Wextra" "-fsyntax-only" "-fdiagnostics-color=never" local-file))))
-(push '("\\.c$" flymake-c-init) flymake-allowed-file-name-masks)
-(push '("\\.cpp$" flymake-cc-init) flymake-allowed-file-name-masks)
 (add-hook 'c-mode-common-hook
 	  '(lambda ()
 	     (flymake-mode t)))
@@ -211,6 +228,7 @@
 (setq ispell-program-name "aspell")
 (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--run-together-limit=16"))
 (setq flyspell-mark-duplications-flag nil)
+(setq flyspell-mode-line-string " ")
 (global-set-key "\M-#" '(lambda () (interactive) (flyspell-mode) (flyspell-buffer)))
 
 (setq ruby-flymake-use-rubocop-if-available nil)
@@ -221,11 +239,6 @@
                        temp-file
                        (file-name-directory buffer-file-name))))
     (list "~/.elisp/flymake-ruby.sh" (list local-file))))
-(push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-(push '(".+\\.rake$" flymake-ruby-init) flymake-allowed-file-name-masks)
-(push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
-(push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
-(push '("^\\(.*\\):\\([0-9]+\\):[0-9]+: \\(.\\): \\(.*\\)$" 1 2 3 4) flymake-err-line-patterns)
 (autoload 'inf-ruby-minor-mode "inf-ruby" "Run an inferior Ruby process" t)
 (require 'rspec-mode)
 (setenv "PAGER" (executable-find "cat"))
